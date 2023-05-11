@@ -93,7 +93,6 @@ public class User {
                     name = "USER_ID"
             )
     )
-    @Column(name = "CONTAC" +
-            "TS_ID")
+    @Column(name = "CONTACTS_ID")
     private List<String> contacts;
 }
