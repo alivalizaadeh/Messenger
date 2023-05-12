@@ -2,14 +2,10 @@ package com.av.message.controller;
 
 import com.av.message.MessageApplication;
 import com.av.message.entity.Message;
-import com.av.message.exception.MessageNotFoundException;
 import com.av.message.repository.MessageRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -19,7 +15,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-//@DataJpaTest
 @ComponentScan
 public class MessageRepositoryTest {
 
