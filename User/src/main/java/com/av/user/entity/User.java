@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.File;
 import java.util.List;
 
 @Entity
@@ -43,8 +42,11 @@ public class User {
     @Column(unique = true)
     private String phoneNumber;
 
+    @Column
     private Boolean isVerified;
-    private File profilePicture;
+
+    @Column
+    private byte [] profilePicture;
 
     @ElementCollection
     @CollectionTable(
@@ -75,6 +77,7 @@ public class User {
     )
     @Column(name = "MESSAGES_ID")
     private List<String> allMessages;
+
 
     @ElementCollection
     @CollectionTable(
