@@ -1,4 +1,4 @@
-package com.av.message.exception.handler;
+package com.av.message.advice;
 
 import com.av.message.exception.MessageIdDuplicatedException;
 import com.av.message.exception.MessageNotFoundException;
