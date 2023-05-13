@@ -32,7 +32,7 @@ public class MessageServiceImpl implements MessageService{
             propagation = Propagation.REQUIRES_NEW
     )
      */
-    public String insert(MessageInsertRequest request) {
+    public String insert(MessageInsertRequest request) throws MessageIdDuplicatedException {
         Message message = Message.builder().
                 id(MessageApplication.getRandomStringId()).
                 text(request.text()).
@@ -41,13 +41,9 @@ public class MessageServiceImpl implements MessageService{
                 readAt(null).
                 hasRead(false).isEdited(false).isDeleted(false)
                 .build();
-        try {
-            findById(message.getId());
+        if (findById(message.getId()).getClass() != null)
             throw new MessageIdDuplicatedException();
-        }catch (MessageNotFoundException e){
-            messageRepository.save(message);
-        }
-        return message.getId();
+        return messageRepository.save(message).getId();
     }
 
     @Override
@@ -62,26 +58,23 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public String update(MessageUpdateRequest request) {
+    public String update(MessageUpdateRequest request) throws MessageNotFoundException {
         if (Boolean.TRUE.equals(request.isDeleted())){
             delete(request.id());
+            return null;
         }
-        try {
-            Message find = findById(request.id());
-            Message message = Message.builder().
-                    id(request.id()).
-                    text(request.text()).
-                    sentAt(find.getSentAt()).
-                    readAt(request.readAt() == null ? find.getReadAt() :
-                            MessageApplication.customizeLocalDateTime(request.readAt())).
-                    file(find.getFile()).
-                    hasRead((request.readAt() == null) ? find.getHasRead() : true).
-                    isEdited(true).
-                    isDeleted(request.isDeleted() == null ? find.getIsDeleted() : request.isDeleted()).build();
-            messageRepository.save(message);
-        } catch (MessageNotFoundException exception){
-            throw new MessageNotFoundException("Message not found with id : " + request.id());
-        }
+        Message find = findById(request.id());
+        Message message = Message.builder().
+                id(request.id()).
+                text(request.text()).
+                sentAt(find.getSentAt()).
+                readAt(request.readAt() == null ? find.getReadAt() :
+                        MessageApplication.customizeLocalDateTime(request.readAt())).
+                file(find.getFile()).
+                hasRead((request.readAt() == null) ? find.getHasRead() : true).
+                isEdited(true).
+                isDeleted(request.isDeleted() == null ? find.getIsDeleted() : request.isDeleted()).build();
+        messageRepository.save(message);
         return request.id();
     }
 

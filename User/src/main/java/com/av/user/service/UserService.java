@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserService {
     Long insert(UserInsertRequest request);
     UserResponse findById(Long id);
+    UserResponse findByPhoneNumber(String phoneNumber);
+    UserResponse findByUserName(String username);
     List<UserResponse> findAll();
     List<UserResponse> findAllBySorting();
     void deleteById(Long id);
