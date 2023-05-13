@@ -43,9 +43,6 @@ public class User {
     private String phoneNumber;
 
     @Column
-    private Boolean isVerified;
-
-    @Column
     private byte [] profilePicture;
 
     @ElementCollection

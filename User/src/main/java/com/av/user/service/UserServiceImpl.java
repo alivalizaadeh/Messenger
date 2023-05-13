@@ -3,7 +3,8 @@ package com.av.user.service;
 import com.av.user.entity.User;
 import com.av.user.exception.UserNotFoundException;
 import com.av.user.repository.UserRepository;
-import com.av.user.request.UserCreateRequest;
+import com.av.user.request.UserInsertRequest;
+import com.av.user.request.UserUpdateRequest;
 import com.av.user.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,14 +23,13 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
-    public Long insert(UserCreateRequest request){
+    public Long insert(UserInsertRequest request){
         User user = User.builder().
                 firstname(request.firstName()).
                 lastname(request.lastName()).
                 bio(request.bio()).
                 username(request.username()).
                 phoneNumber(request.phoneNumber()).
-                isVerified(true).
                 profilePicture(null).
                 savedMessages(new ArrayList<>()).
                 sendMessages(new ArrayList<>()).
@@ -71,6 +71,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteByPhoneNumber(String phoneNumber) {
         userRepository.deleteByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Long updateById(UserUpdateRequest request) {
+        return null;
+    }
+
+    @Override
+    public Long updateByPhoneNumber(UserUpdateRequest request) {
+        return null;
     }
 
     private UserResponse convertToResponse(User user){

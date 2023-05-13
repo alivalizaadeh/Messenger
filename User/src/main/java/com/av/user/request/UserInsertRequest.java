@@ -4,7 +4,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
 
-public record UserCreateRequest(
+public record UserInsertRequest(
         @NotNull String firstName,
         @Nullable String lastName,
         @Nullable String bio,
