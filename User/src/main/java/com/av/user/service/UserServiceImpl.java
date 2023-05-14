@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
                 phoneNumber(request.phoneNumber()).
                 profilePicture(null).
                 messages(new ArrayList<>()).
-                messageTypes(new ArrayList<>()).
+                messageType(new ArrayList<>()).
                 contacts(new ArrayList<>()).
                 build();
         return userRepository.save(user).getId();

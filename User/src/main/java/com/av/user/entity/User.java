@@ -62,7 +62,7 @@ public class User {
                     name = "MESSAGE_ID"
             )
     )
-    private List<MessageTypes> messageTypes;
+    private List<MessageTypes> messageType;
 
     @ElementCollection
     @CollectionTable(

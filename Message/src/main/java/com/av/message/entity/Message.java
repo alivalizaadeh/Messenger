@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class Message {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, updatable = false)
+    @Column(unique = true, updatable = false , length = 28)
     // todo : must changed to bigint
     private String id;
 
