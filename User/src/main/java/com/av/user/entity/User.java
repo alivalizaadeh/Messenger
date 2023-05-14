@@ -47,44 +47,22 @@ public class User {
 
     @ElementCollection
     @CollectionTable(
-            name = "SAVED_MESSAGES",
+            name = "MESSAGES",
             joinColumns = @JoinColumn(
                     name = "USER_ID"
             )
     )
     @Column(name = "MESSAGES_ID")
-    private List<String> savedMessages;
+    private List<String> messages;
 
     @ElementCollection
     @CollectionTable(
-            name = "SEND_MESSAGES",
+            name = "TYPE_MESSAGES" ,
             joinColumns = @JoinColumn(
-                    name = "USER_ID"
+                    name = "MESSAGE_ID"
             )
     )
-    @Column(name = "MESSAGES_ID")
-    private List<String> sendMessages;
-
-    @ElementCollection
-    @CollectionTable(
-            name = "ALL_MESSAGES",
-            joinColumns = @JoinColumn(
-                    name = "USER_ID"
-            )
-    )
-    @Column(name = "MESSAGES_ID")
-    private List<String> allMessages;
-
-
-    @ElementCollection
-    @CollectionTable(
-            name = "UNREAD_MESSAGES",
-            joinColumns = @JoinColumn(
-                    name = "USER_ID"
-            )
-    )
-    @Column(name = "MESSAGES_ID")
-    private List<String> unreadMessages;
+    private List<MessageTypes> messageTypes;
 
     @ElementCollection
     @CollectionTable(

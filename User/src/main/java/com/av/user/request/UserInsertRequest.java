@@ -7,8 +7,6 @@ import javax.validation.constraints.NotNull;
 public record UserInsertRequest(
         @NotNull String firstName,
         @Nullable String lastName,
-        @Nullable String bio,
-        @Nullable String username,
         @NotNull String phoneNumber
 ) {
 }
