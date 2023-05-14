@@ -17,4 +17,5 @@ public interface UserService {
     void deleteByPhoneNumber(String phoneNumber);
     Long updateById(UserUpdateRequest request);
     Long updateByPhoneNumber(UserUpdateRequest request);
+    boolean addMessage(Long userId , String messageId);
 }

@@ -1,4 +1,4 @@
-package com.av.user.exception;
+package com.av.user.exception.User;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(String message) {

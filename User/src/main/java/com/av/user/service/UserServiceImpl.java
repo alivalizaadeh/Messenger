@@ -1,15 +1,18 @@
 package com.av.user.service;
 
 import com.av.user.entity.User;
-import com.av.user.exception.UserNotFoundException;
-import com.av.user.exception.UserPhoneNumberDuplicatedException;
+import com.av.user.exception.Message.MessageNotFoundException;
+import com.av.user.exception.User.UserNotFoundException;
+import com.av.user.exception.User.UserPhoneNumberDuplicatedException;
 import com.av.user.repository.UserRepository;
 import com.av.user.request.UserInsertRequest;
 import com.av.user.request.UserUpdateRequest;
+import com.av.user.response.MessageResponse;
 import com.av.user.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +21,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RestTemplate restTemplate) {
         this.userRepository = userRepository;
+        this.restTemplate = restTemplate;
     }
 
     public Long insert(UserInsertRequest request) throws UserPhoneNumberDuplicatedException {
@@ -37,7 +42,7 @@ public class UserServiceImpl implements UserService{
                 phoneNumber(request.phoneNumber()).
                 profilePicture(null).
                 messages(new ArrayList<>()).
-                messageType(new ArrayList<>()).
+                messageTypes(new ArrayList<>()).
                 contacts(new ArrayList<>()).
                 build();
         return userRepository.save(user).getId();
@@ -113,6 +118,30 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long updateByPhoneNumber(UserUpdateRequest request) {
         return null;
+    }
+
+    @Override
+    public boolean addMessage(Long userId , String messageId) throws MessageNotFoundException{
+        /*
+        Response response = restTemplate.getForObject(
+                "http://localhost:8080" ,
+                Response.class ,
+                person.getHuman()
+        );
+         */
+        try {
+            // fixme : check it was working or not
+            restTemplate.getForObject(
+                    "http://localhost:8081/messages/{id}/isValid" ,
+                    MessageResponse.class ,
+                    messageId
+            );
+            // todo : add message to db
+            userRepository.saveMessage(userId , messageId);
+            return true;
+        } catch (RuntimeException exception){
+            throw new MessageNotFoundException("Message not found with id '" + messageId + "'");
+        }
     }
 
     private UserResponse convertToResponse(User user){
