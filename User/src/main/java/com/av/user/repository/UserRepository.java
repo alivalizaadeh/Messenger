@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByPhoneNumber(String phoneNumber);
     Optional<User> findByUsername(String username);
     void deleteByPhoneNumber(String phoneNumber);
-    @Query(value = "insert into MESSAGES m (m.userId , m.messageId) values (:userId , :messageId)" , nativeQuery = true)
+    @Query(value = "insert into USER.MESSAGES m (m.userId , m.messageId) values (:userId , :messageId)" , nativeQuery = true)
     void saveMessage(@Param("userId") Long userId ,
                      @Param("messageId") String messageId);
 }

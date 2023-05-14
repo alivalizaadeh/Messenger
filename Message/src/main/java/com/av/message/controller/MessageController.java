@@ -34,14 +34,13 @@ public class MessageController {
     @GetMapping("/{id}")
     public ResponseEntity<Message> getMessageById(@PathVariable String id)
             throws MessageNotFoundException {
-
-        return ResponseEntity.ok(messageService.findById(id));
+        return new ResponseEntity<>(messageService.findById(id) , HttpStatus.FOUND);
     }
 
     @GetMapping("/{id}/isValid")
     public ResponseEntity<Boolean> haveAnyMessageById(@PathVariable String id)
             throws MessageNotFoundException{
-        return ResponseEntity.ok(messageService.findById(id) != null);
+        return new ResponseEntity<>(messageService.findById(id) != null , HttpStatus.FOUND);
     }
 
     @GetMapping("/all")

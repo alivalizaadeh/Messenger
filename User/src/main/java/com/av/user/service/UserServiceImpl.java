@@ -121,14 +121,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean addMessage(Long userId , String messageId) throws MessageNotFoundException{
-        /*
-        Response response = restTemplate.getForObject(
-                "http://localhost:8080" ,
-                Response.class ,
-                person.getHuman()
-        );
-         */
+    public boolean addMessage(Long userId , String messageId)
+            throws MessageNotFoundException{
         try {
             // fixme : check it was working or not
             restTemplate.getForObject(
