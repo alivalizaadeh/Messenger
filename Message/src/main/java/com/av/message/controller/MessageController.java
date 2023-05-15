@@ -37,10 +37,10 @@ public class MessageController {
         return new ResponseEntity<>(messageService.findById(id) , HttpStatus.FOUND);
     }
 
-    @GetMapping("/{id}/isValid")
-    public ResponseEntity<Boolean> haveAnyMessageById(@PathVariable String id)
+    @GetMapping("/{id}/id")
+    public ResponseEntity<String> haveAnyMessageById(@PathVariable String id)
             throws MessageNotFoundException{
-        return new ResponseEntity<>(messageService.findById(id) != null , HttpStatus.FOUND);
+        return new ResponseEntity<>(messageService.findById(id).getId() , HttpStatus.FOUND);
     }
 
     @GetMapping("/all")

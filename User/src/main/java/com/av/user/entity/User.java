@@ -62,6 +62,7 @@ public class User {
                     name = "MESSAGE_ID"
             )
     )
+    @Column(name = "MESSAGE_TYPES")
     private List<MessageTypes> messageTypes;
 
     @ElementCollection

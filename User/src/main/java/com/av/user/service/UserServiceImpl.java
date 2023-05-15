@@ -7,7 +7,6 @@ import com.av.user.exception.User.UserPhoneNumberDuplicatedException;
 import com.av.user.repository.UserRepository;
 import com.av.user.request.UserInsertRequest;
 import com.av.user.request.UserUpdateRequest;
-import com.av.user.response.MessageResponse;
 import com.av.user.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,8 +23,9 @@ public class UserServiceImpl implements UserService{
     private final RestTemplate restTemplate;
 
     @Autowired
+    // DI
     public UserServiceImpl(UserRepository userRepository, RestTemplate restTemplate) {
-        this.userRepository = userRepository;
+        /* ioc */ this.userRepository = userRepository;
         this.restTemplate = restTemplate;
     }
 
@@ -121,21 +121,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean addMessage(Long userId , String messageId)
-            throws MessageNotFoundException{
-        try {
-            // fixme : check it was working or not
-            restTemplate.getForObject(
-                    "http://localhost:8081/messages/{id}/isValid" ,
-                    MessageResponse.class ,
-                    messageId
-            );
-            // todo : add message to db
-            userRepository.saveMessage(userId , messageId);
-            return true;
-        } catch (RuntimeException exception){
-            throw new MessageNotFoundException("Message not found with id '" + messageId + "'");
-        }
+    public void addMessage(Long userId, String messageId)
+            throws MessageNotFoundException , UserNotFoundException {
+        // fixme : check it was working or not
+        restTemplate.getForObject(
+                "http://localhost:8081/messages/{id}/id",
+                String.class ,
+                messageId
+        );
+        findById(userId);
+        // todo : add message to db
+        userRepository.saveMessage(userId, messageId);
     }
 
     private UserResponse convertToResponse(User user){
