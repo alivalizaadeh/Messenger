@@ -47,9 +47,7 @@ public class MessagesServiceImpl implements MessagesService {
         checkMessageIdIsExist(messageId + userId);
 
         // todo : insert message types to message
-        for (MessageTypes messageType : messageTypes) {
-            userRepository.saveMessageType(messageId + userId, messageType.toString());
-        }
+        messageRepository.insertTypeMessage(userId , messageId + userId, messageTypes);
     }
 
     private void checkUserIdIsExist(Long userId) throws UserNotFoundException{
