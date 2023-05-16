@@ -1,12 +1,12 @@
 package com.av.user.entity;
 
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -17,12 +17,13 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence_generator")
     @Column(name = "ID")
     private Long id;
+
 
     @NotNull(message = "firstname must be not null.")
     @Column(length = 15, nullable = false)
@@ -34,11 +35,9 @@ public class User {
     @Column(length = 100)
     private String bio;
 
-    @UniqueElements(message = "username must be unique.")
     @Column(unique = true)
     private String username;
 
-    @UniqueElements(message = "phoneNumber must be unique.")
     @Column(unique = true)
     private String phoneNumber;
 
@@ -57,12 +56,12 @@ public class User {
 
     @ElementCollection
     @CollectionTable(
-            name = "TYPE_MESSAGES" ,
+            name = "TYPE_MESSAGES",
             joinColumns = @JoinColumn(
                     name = "MESSAGE_ID"
             )
     )
-    @Column(name = "MESSAGE_TYPES")
+    @Column(name = "MESSAGE_TYPE")
     private List<MessageTypes> messageTypes;
 
     @ElementCollection

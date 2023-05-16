@@ -7,7 +7,7 @@ import com.av.user.response.UserResponse;
 import java.util.List;
 
 public interface UserService {
-    Long insert(UserInsertRequest request);
+    UserResponse insert(UserInsertRequest request);
     UserResponse findById(Long id);
     UserResponse findByPhoneNumber(String phoneNumber);
     UserResponse findByUserName(String username);
@@ -17,5 +17,4 @@ public interface UserService {
     void deleteByPhoneNumber(String phoneNumber);
     Long updateById(UserUpdateRequest request);
     Long updateByPhoneNumber(UserUpdateRequest request);
-    void addMessage(Long userId , String messageId);
 }

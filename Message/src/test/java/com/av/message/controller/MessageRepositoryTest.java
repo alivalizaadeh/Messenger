@@ -34,9 +34,8 @@ public class MessageRepositoryTest {
         Message message = Message.builder().
                 id("bd6b356914f1450ca772a13739ca37bd").
                 text("Hi , I'm Ali.").
-                file(null).
                 sentAt(MessageApplication.customizeLocalDateTime(LocalDateTime.now())).
-                readAt(null).hasRead(false).isEdited(false).isDeleted(false).build();
+                hasRead(false).isEdited(false).isDeleted(false).build();
         messageRepository.save(message);
         assertNotNull(messageRepository.findById("bd6b356914f1450ca772a13739ca37bd").orElse(null));
     }

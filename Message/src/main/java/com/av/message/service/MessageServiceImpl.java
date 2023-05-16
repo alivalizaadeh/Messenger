@@ -33,17 +33,23 @@ public class MessageServiceImpl implements MessageService{
     )
      */
     public String insert(MessageInsertRequest request) throws MessageIdDuplicatedException {
-        Message message = Message.builder().
-                id(MessageApplication.getRandomStringId()).
-                text(request.text()).
-                file(request.file()).
-                sentAt(MessageApplication.customizeLocalDateTime(LocalDateTime.now())).
-                readAt(null).
-                hasRead(false).isEdited(false).isDeleted(false)
-                .build();
-        if (findById(message.getId()).getClass() != null)
+        String id = MessageApplication.getRandomStringId();
+        try {
+            findById(id);
             throw new MessageIdDuplicatedException();
-        return messageRepository.save(message).getId();
+        } catch (MessageNotFoundException ignored){
+            Message message = Message.builder().
+                    id(id).
+                    text(request.text()).
+                    sentAt(MessageApplication.customizeLocalDateTime(LocalDateTime.now())).
+                    hasRead(false).isEdited(false).isDeleted(false)
+                    .build();
+            if (request.file() != null){
+                message.setFile(request.file());
+            }
+            messageRepository.save(message);
+            return id;
+        }
     }
 
     @Override

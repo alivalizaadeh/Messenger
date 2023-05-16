@@ -6,6 +6,7 @@ import com.av.message.exception.MessageNotFoundException;
 import com.av.message.request.MessageInsertRequest;
 import com.av.message.request.MessageUpdateRequest;
 import com.av.message.service.MessageService;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

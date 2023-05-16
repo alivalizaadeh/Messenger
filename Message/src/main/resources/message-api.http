@@ -1,0 +1,8 @@
+POST http://localhost:8081/messages/insert
+Content-Type: application/json
+
+{
+  "text": "Hello, my name is ali."
+}
+
+###

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,9 +20,7 @@ import java.time.LocalDateTime;
 @Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
 public class Message {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, updatable = false , length = 28)
-    // todo : must changed to bigint
+    @Column(unique = true, updatable = false , length = 32)
     private String id;
 
     @Column

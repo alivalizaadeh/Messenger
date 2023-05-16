@@ -1,7 +1,6 @@
 package com.av.user.service;
 
 import com.av.user.entity.User;
-import com.av.user.exception.Message.MessageNotFoundException;
 import com.av.user.exception.User.UserNotFoundException;
 import com.av.user.exception.User.UserPhoneNumberDuplicatedException;
 import com.av.user.repository.UserRepository;
@@ -9,6 +8,8 @@ import com.av.user.request.UserInsertRequest;
 import com.av.user.request.UserUpdateRequest;
 import com.av.user.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,19 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Scope(BeanDefinition.SCOPE_SINGLETON)
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final RestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
 
     @Autowired
     // DI
-    public UserServiceImpl(UserRepository userRepository, RestTemplate restTemplate) {
+    public UserServiceImpl(UserRepository userRepository/*, RestTemplate restTemplate*/) {
         /* ioc */ this.userRepository = userRepository;
-        this.restTemplate = restTemplate;
+        //this.restTemplate = restTemplate;
     }
 
-    public Long insert(UserInsertRequest request) throws UserPhoneNumberDuplicatedException {
+    @Override
+    public UserResponse insert(UserInsertRequest request) throws UserPhoneNumberDuplicatedException {
         try {
             findByPhoneNumber(request.phoneNumber());
             throw new UserPhoneNumberDuplicatedException("User with phone number '" + request.phoneNumber() + "' founded.");
@@ -37,15 +40,17 @@ public class UserServiceImpl implements UserService{
         User user = User.builder().
                 firstname(request.firstName()).
                 lastname(request.lastName()).
-                bio(null).
-                username(null).
                 phoneNumber(request.phoneNumber()).
-                profilePicture(null).
-                messages(new ArrayList<>()).
-                messageTypes(new ArrayList<>()).
-                contacts(new ArrayList<>()).
                 build();
-        return userRepository.save(user).getId();
+        userRepository.save(user);
+        return new UserResponse(
+                user.getId(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getBio(),
+                user.getPhoneNumber(),
+                user.getProfilePicture()
+        );
     }
 
     @Override
@@ -118,20 +123,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long updateByPhoneNumber(UserUpdateRequest request) {
         return null;
-    }
-
-    @Override
-    public void addMessage(Long userId, String messageId)
-            throws MessageNotFoundException , UserNotFoundException {
-        // fixme : check it was working or not
-        restTemplate.getForObject(
-                "http://localhost:8081/messages/{id}/id",
-                String.class ,
-                messageId
-        );
-        findById(userId);
-        // todo : add message to db
-        userRepository.saveMessage(userId, messageId);
     }
 
     private UserResponse convertToResponse(User user){
