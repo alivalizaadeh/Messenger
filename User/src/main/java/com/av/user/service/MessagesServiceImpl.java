@@ -3,6 +3,7 @@ package com.av.user.service;
 import com.av.user.entity.MessageTypes;
 import com.av.user.exception.Message.MessageNotFoundException;
 import com.av.user.exception.User.UserNotFoundException;
+import com.av.user.repository.MessageRepository;
 import com.av.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,14 @@ public class MessagesServiceImpl implements MessagesService {
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
     private final UserService userService;
+    private final MessageRepository messageRepository;
 
     @Autowired
-    public MessagesServiceImpl(UserRepository userRepository, RestTemplate restTemplate, UserService userService) {
+    public MessagesServiceImpl(UserRepository userRepository, RestTemplate restTemplate, UserService userService, MessageRepository messageRepository) {
         this.userRepository = userRepository;
         this.restTemplate = restTemplate;
         this.userService = userService;
+        this.messageRepository = messageRepository;
     }
 
     @Override
@@ -31,13 +34,13 @@ public class MessagesServiceImpl implements MessagesService {
         checkUserIdIsExist(userId);
         // fixme : add message to db
         // info : it's saving as messageId + userId because we need customize messages for users
-        userRepository.saveMessage(userId, messageId + userId);
+        messageRepository.insertMessage(userId , messageId + userId);
     }
 
     @Override
     public void addTypeMessage(Long userId, String messageId, List<MessageTypes> messageTypes)
             throws MessageNotFoundException , UserNotFoundException{
-        // todo : check userId is exist
+        // todo : check userId is exists
         checkUserIdIsExist(userId);
 
         // todo : check messageId is exits

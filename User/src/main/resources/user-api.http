@@ -2,7 +2,7 @@ POST http://localhost:8082/user/messages/insert
 Content-Type: application/json
 
 {
-  "userId": 152 ,
+  "userId": 1 ,
   "messageId": "0db60edaae5a461980a2fde72a76a9e5"
 }
 
@@ -15,9 +15,9 @@ POST http://localhost:8082/users/insert
 Content-Type: application/json
 
 {
-  "firstName" : "Ali" ,
+  "firstName" : "Abdolreza" ,
   "lastName" : "Valizadeh",
-  "phoneNumber" : "09375242935"
+  "phoneNumber" : "09155843675"
 }
 
 

@@ -51,7 +51,7 @@ public class User implements Serializable {
                     name = "USER_ID"
             )
     )
-    @Column(name = "MESSAGES_ID")
+    @Column(name = "MESSAGE_ID")
     private List<String> messages;
 
     @ElementCollection

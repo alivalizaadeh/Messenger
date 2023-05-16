@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
 public class Message {
     @Id
-    @Column(unique = true, updatable = false , length = 32)
+    @Column(unique = true, updatable = false)
     private String id;
 
     @Column

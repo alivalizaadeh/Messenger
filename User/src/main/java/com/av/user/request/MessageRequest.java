@@ -8,7 +8,7 @@ import java.util.List;
 
 public record MessageRequest(
         @NotNull Long userId ,
-        @NotNull String messageId ,
-        @Nullable List<MessageTypes> messageTypes
+        @NotNull String messageId //,
+        //@Nullable List<MessageTypes> messageTypes
         ) {
 }
