@@ -24,7 +24,7 @@ public class MessagesController {
 
     @PostMapping("/insert")
     public ResponseEntity<Boolean> saveMessageForUser(@RequestBody MessageRequest request){
-        messagesService.addMessage(request.userId(), request.messageId());
+        messagesService.addMessage(request.userId(), request.messageId() , request.messageTypes());
         return ResponseEntity.ok(true);
     }
 }

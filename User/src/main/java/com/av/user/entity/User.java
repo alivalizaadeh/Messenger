@@ -1,5 +1,6 @@
 package com.av.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -62,7 +63,8 @@ public class User implements Serializable {
             )
     )
     @Column(name = "MESSAGE_TYPE")
-    private List<MessageTypes> messageTypes;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private List<MessageType> messageTypes;
 
     @ElementCollection
     @CollectionTable(
