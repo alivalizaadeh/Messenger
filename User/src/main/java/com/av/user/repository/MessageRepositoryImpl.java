@@ -19,7 +19,23 @@ public class MessageRepositoryImpl implements MessageRepository{
     }
 
     @Override
+    public MessageResponse forCheck(Long userId, String messageId) {
+        List<MessageResponse> responses = jdbcTemplate.query(
+                "select * from user.messages" ,
+                new MessagesRowMapper()
+        );
+        System.out.println(responses);
+        return new MessageResponse(userId , messageId + userId , new ArrayList<>());
+    }
+
+    @Override
     public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes){
+        // todo : check to message exists or not
+
+        // todo : after check insert to messages
+
+        // todo : after insert, check to messageTypes exists or not, if exists nothing otherwise insert type messages
+
         jdbcTemplate.queryForObject(
                 "select * from user.messages where user_id = ? and message_id = ?" ,
                 MessageResponse.class ,

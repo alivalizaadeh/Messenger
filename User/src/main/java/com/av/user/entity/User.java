@@ -64,7 +64,7 @@ public class User implements Serializable {
     )
     @Column(name = "MESSAGE_TYPE")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private List<MessageType> messageTypes;
+    private List<String> messageTypes;
 
     @ElementCollection
     @CollectionTable(

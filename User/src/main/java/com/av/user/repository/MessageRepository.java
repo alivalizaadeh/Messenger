@@ -8,4 +8,5 @@ import java.util.List;
 public interface MessageRepository {
     MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes);
     Boolean checkMessageHaveThisType(Long userId , String messageId , MessageType messageTypes);
+    MessageResponse forCheck(Long userId , String messageId);
 }

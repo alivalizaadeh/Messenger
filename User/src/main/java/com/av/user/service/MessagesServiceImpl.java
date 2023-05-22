@@ -35,9 +35,10 @@ public class MessagesServiceImpl implements MessagesService {
         checkUserIdIsExist(userId);
         // fixme : add message to db
         // info : it's saving as messageId + userId because we need customize messages for users
-        messageRepository.insertMessage(userId , messageId + userId , messageTypes);
-        messageRepository.checkMessageHaveThisType(userId , messageId + userId ,
-                MessageType.RECEIVED_MESSAGE);
+        messageRepository.forCheck(userId , messageId);
+        //messageRepository.insertMessage(userId , messageId + userId , messageTypes);
+        //messageRepository.checkMessageHaveThisType(userId , messageId + userId ,
+        //        MessageType.RECEIVED_MESSAGE);
     }
 
     private void checkUserIdIsExist(Long userId) throws UserNotFoundException{

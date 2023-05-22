@@ -1,4 +1,4 @@
-package com.av.message.controller;
+package com.av.message.repository;
 
 import com.av.message.MessageApplication;
 import com.av.message.entity.Message;
