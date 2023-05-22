@@ -2,6 +2,7 @@ package com.av.user.service;
 
 import com.av.user.entity.MessageType;
 import com.av.user.exception.Message.MessageNotFoundException;
+import com.av.user.exception.User.UserMessageFoundException;
 import com.av.user.exception.User.UserNotFoundException;
 import com.av.user.repository.MessageRepositoryImpl;
 import com.av.user.repository.UserRepository;
@@ -28,16 +29,12 @@ public class MessagesServiceImpl implements MessagesService {
 
     @Override
     public void addMessage(Long userId, String messageId , List<MessageType> messageTypes)
-            throws MessageNotFoundException, UserNotFoundException {
+            throws MessageNotFoundException, UserNotFoundException , UserMessageFoundException {
         // fixme : check it was working or not
         checkMessageIdIsExist(messageId);
         checkUserIdIsExist(userId);
         // fixme : add message to db
-        // info : it saving as messageId + userId because we need customize messages for users
-        messageRepository.checkUserHaveTheMessage(userId , messageId);
-        //messageRepository.insertMessage(userId , messageId + userId , messageTypes);
-        //messageRepository.checkMessageHaveThisType(userId , messageId + userId ,
-        //        MessageType.RECEIVED_MESSAGE);
+        messageRepository.insertMessage(userId , messageId , messageTypes);
     }
 
     private void checkUserIdIsExist(Long userId) throws UserNotFoundException{

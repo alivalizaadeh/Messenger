@@ -1,5 +1,6 @@
 package com.av.user;
 
+import com.av.user.entity.MessageType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

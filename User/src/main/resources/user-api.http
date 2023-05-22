@@ -3,7 +3,12 @@ Content-Type: application/json
 
 {
   "userId": 1 ,
-  "messageId": "0db60edaae5a461980a2fde72a76a9e5"
+  "messageId": "0db60edaae5a461980a2fde72a76a9e5",
+  "messageTypes" : [
+    {
+      "messageType" : "SAVE_MESSAGE"
+    }
+  ]
 }
 
 ###
@@ -15,8 +20,8 @@ POST http://localhost:8082/users/insert
 Content-Type: application/json
 
 {
-  "firstName" : "Abdolreza" ,
-  "lastName" : "Valizadeh",
+  "firstName" : "" ,
+  "lastName" : "",
   "phoneNumber" : ""
 }
 
