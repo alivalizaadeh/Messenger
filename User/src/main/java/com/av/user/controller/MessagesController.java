@@ -1,6 +1,7 @@
 package com.av.user.controller;
 
 import com.av.user.request.MessageRequest;
+import com.av.user.response.MessageResponse;
 import com.av.user.service.MessagesService;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,10 @@ public class MessagesController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Boolean> saveMessageForUser(@RequestBody MessageRequest request){
-        messagesService.addMessage(request.userId(), request.messageId() , request.messageTypes());
-        return ResponseEntity.ok(true);
+    public ResponseEntity<MessageResponse> saveMessageForUser(@RequestBody MessageRequest request){
+        return new ResponseEntity<>(
+                messagesService.addMessage(request.userId(), request.messageId() , request.messageTypes()) ,
+                HttpStatus.CREATED
+        );
     }
 }

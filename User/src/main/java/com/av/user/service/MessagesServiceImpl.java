@@ -6,6 +6,7 @@ import com.av.user.exception.User.UserMessageFoundException;
 import com.av.user.exception.User.UserNotFoundException;
 import com.av.user.repository.MessageRepositoryImpl;
 import com.av.user.repository.UserRepository;
+import com.av.user.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,16 +29,16 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public void addMessage(Long userId, String messageId , List<MessageType> messageTypes)
+    public MessageResponse addMessage(Long userId, String messageId , List<MessageType> messageTypes)
             throws MessageNotFoundException, UserNotFoundException , UserMessageFoundException {
         // fixme : check it was working or not
         isMessageIdExist(messageId);
-        checkUserIdIsExist(userId);
+        isUserIdExist(userId);
         // fixme : add message to db
-        messageRepository.insertMessage(userId , messageId , messageTypes);
+        return messageRepository.insertMessage(userId , messageId , messageTypes);
     }
 
-    private void checkUserIdIsExist(Long userId) throws UserNotFoundException{
+    private void isUserIdExist(Long userId) throws UserNotFoundException{
         userService.findById(userId);
     }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +24,13 @@ public class MessageRepositoryImpl implements MessageRepository{
     public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes)
             throws UserMessageFoundException{
         // todo : check message for user exists or not
-        if(isUserHaveTheMessage(userId, messageId)){
+        if(!isUserHaveTheMessage(userId, messageId)){
             jdbcTemplate.update(
                     "insert into user.messages (user_id , message_id) values (?,?)" ,
                     userId , messageId + userId);
         }
 
-        // todo : after insert, check to messageTypes exists or not, if exists nothing otherwise insert type messages
+        // todo : check to messageTypes exists or not, if exists nothing otherwise insert type messages
         List<String> responses = jdbcTemplate
                 .queryForList(
                         "select message_type from user.type_messages where message_id = ?" ,
@@ -51,27 +52,22 @@ public class MessageRepositoryImpl implements MessageRepository{
                     messageId + userId , messageType.name()
             );
 
-        return new MessageResponse(userId, messageId , messageTypes);
+        List<MessageType> allTypes = new ArrayList<>();
+        for (String string : responses)
+            allTypes.add(MessageType.valueOf(string));
+        allTypes.addAll(messageTypes);
+
+        return new MessageResponse(userId, messageId , allTypes);
     }
 
     @Override
     public Boolean isUserHaveTheMessage(Long userId, String messageId) {
-        MessageResponse response = jdbcTemplate.queryForObject(
-                "select * from user.messages where user_id = ? and message_id = ?" ,
-                new MessagesRowMapper() ,
-                userId , messageId + userId
-        );
-        return response == null;
-    }
-
-    @Override
-    public Boolean checkMessageHaveThisType(Long userId, String messageId, MessageType messageTypes) {
-        MessageResponse response = jdbcTemplate.queryForObject(
-                "select message_id , message_type from user.type_messages where message_id : ?" ,
-                MessageResponse.class ,
+        List<Long> responses = jdbcTemplate.queryForList(
+                "select user_id from user.messages where message_id = ?" ,
+                Long.class ,
                 messageId + userId
         );
-        System.out.println(response);
-        return true;
+        return responses.size() == 1;
     }
+
 }

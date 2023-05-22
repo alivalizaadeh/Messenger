@@ -1,3 +1,4 @@
+###
 POST http://localhost:8082/user/messages/insert
 Content-Type: application/json
 
@@ -5,9 +6,11 @@ Content-Type: application/json
   "userId": 1 ,
   "messageId": "0db60edaae5a461980a2fde72a76a9e5",
   "messageTypes" : [
-    "SEND_MESSAGE" , "RECEIVED_MESSAGE"
+
   ]
 }
+
+
 
 ###
 GET http://localhost:8082/users/all
