@@ -59,7 +59,9 @@ public class User implements Serializable {
     @CollectionTable(
             name = "TYPE_MESSAGES",
             joinColumns = @JoinColumn(
-                    name = "MESSAGE_ID"
+                    name = "MESSAGE_ID" ,
+                    // fixme : it must be 255
+                    columnDefinition = "varchar(100)"
             )
     )
     @Column(name = "MESSAGE_TYPE")

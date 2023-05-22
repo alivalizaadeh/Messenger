@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class MessageRepositoryImpl implements MessageRepository{
@@ -37,13 +38,17 @@ public class MessageRepositoryImpl implements MessageRepository{
                 );
 
         // todo : filter messageType when it equals with types response
-        messageTypes.stream().filter(messageType -> messageType.name().equals(responses.stream()));
+        for (int i = 0 ; i < messageTypes.size() ; i++)
+            for (String s : responses)
+                if (messageTypes.get(i).name().equalsIgnoreCase(s))
+                    messageTypes.remove(i);
+
 
         // todo : insert messageTypes into type_messages when filtered
         for (MessageType messageType : messageTypes)
             jdbcTemplate.update(
                     "insert into user.type_messages values (?,?)" ,
-                    messageId + userId , messageType
+                    messageId + userId , messageType.name()
             );
 
         return new MessageResponse(userId, messageId , messageTypes);
