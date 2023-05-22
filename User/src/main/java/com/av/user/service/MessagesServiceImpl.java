@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,8 +33,8 @@ public class MessagesServiceImpl implements MessagesService {
         checkMessageIdIsExist(messageId);
         checkUserIdIsExist(userId);
         // fixme : add message to db
-        // info : it's saving as messageId + userId because we need customize messages for users
-        messageRepository.forCheck(userId , messageId);
+        // info : it saving as messageId + userId because we need customize messages for users
+        messageRepository.checkUserHaveTheMessage(userId , messageId);
         //messageRepository.insertMessage(userId , messageId + userId , messageTypes);
         //messageRepository.checkMessageHaveThisType(userId , messageId + userId ,
         //        MessageType.RECEIVED_MESSAGE);

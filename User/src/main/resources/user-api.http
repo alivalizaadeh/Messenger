@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "firstName" : "Abdolreza" ,
   "lastName" : "Valizadeh",
-  "phoneNumber" : "09155843675"
+  "phoneNumber" : ""
 }
 
 

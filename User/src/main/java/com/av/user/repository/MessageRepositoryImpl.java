@@ -30,7 +30,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 
     @Override
     public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes){
-        // todo : check to message exists or not
+        // todo : check message exists or not
+
+
 
         // todo : after check insert to messages
 
@@ -51,6 +53,16 @@ public class MessageRepositoryImpl implements MessageRepository{
             );
         }
         return new MessageResponse(userId, messageId + userId , messageTypes);
+    }
+
+    @Override
+    public Boolean checkUserHaveTheMessage(Long userId, String messageId) {
+        MessageResponse response = jdbcTemplate.queryForObject(
+                "select * from user.messages where user_id = ? and message_id = ?" ,
+                new MessagesRowMapper() ,
+                userId , messageId + userId
+        );
+        return response != null;
     }
 
     @Override
