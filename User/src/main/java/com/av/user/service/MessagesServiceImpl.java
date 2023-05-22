@@ -31,7 +31,7 @@ public class MessagesServiceImpl implements MessagesService {
     public void addMessage(Long userId, String messageId , List<MessageType> messageTypes)
             throws MessageNotFoundException, UserNotFoundException , UserMessageFoundException {
         // fixme : check it was working or not
-        checkMessageIdIsExist(messageId);
+        isMessageIdExist(messageId);
         checkUserIdIsExist(userId);
         // fixme : add message to db
         messageRepository.insertMessage(userId , messageId , messageTypes);
@@ -41,7 +41,7 @@ public class MessagesServiceImpl implements MessagesService {
         userService.findById(userId);
     }
 
-    private void checkMessageIdIsExist(String messageId) throws MessageNotFoundException{
+    private void isMessageIdExist(String messageId) throws MessageNotFoundException{
         restTemplate.getForObject(
                 "http://localhost:8081/messages/{id}/id",
                 String.class ,
