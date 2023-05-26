@@ -1,7 +1,7 @@
 package com.av.user.repository;
 
 import com.av.user.entity.MessageType;
-import com.av.user.exception.User.UserMessageFoundException;
+import com.av.user.exception.User.UserMessageNotFoundException;
 import com.av.user.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class MessageRepositoryImpl implements MessageRepository{
@@ -21,8 +20,7 @@ public class MessageRepositoryImpl implements MessageRepository{
     }
 
     @Override
-    public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes)
-            throws UserMessageFoundException{
+    public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes) {
         // todo : check message for user exists or not
         if(!isUserHaveTheMessage(userId, messageId)){
             jdbcTemplate.update(
@@ -70,4 +68,28 @@ public class MessageRepositoryImpl implements MessageRepository{
         return responses.size() == 1;
     }
 
+    @Override
+    public MessageResponse deleteMessage(Long userId, String messageId , MessageType messageType) {
+        if (!isUserHaveTheMessage(userId, messageId)){
+            throw new UserMessageNotFoundException(
+                    "The Message with id '" + messageId + "' for user '" + userId + "' not found."
+            );
+        }
+        jdbcTemplate.update(
+                "delete from user.messages where user_id = ? and message_id = ?" ,
+                userId ,
+                messageId + userId
+        );
+        int value = jdbcTemplate.update(
+                "delete from user.type_messages where message_id = ? and message_type = ?" ,
+                messageId + userId ,
+                messageType.name()
+        );
+        System.out.println("Value : " + value);
+        return new MessageResponse(
+                userId ,
+                messageId ,
+                List.of(messageType)
+        );
+    }
 }

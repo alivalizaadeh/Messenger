@@ -2,7 +2,7 @@ package com.av.user.service;
 
 import com.av.user.entity.MessageType;
 import com.av.user.exception.Message.MessageNotFoundException;
-import com.av.user.exception.User.UserMessageFoundException;
+import com.av.user.exception.User.UserMessageNotFoundException;
 import com.av.user.exception.User.UserNotFoundException;
 import com.av.user.repository.MessageRepositoryImpl;
 import com.av.user.repository.UserRepository;
@@ -30,12 +30,17 @@ public class MessagesServiceImpl implements MessagesService {
 
     @Override
     public MessageResponse addMessage(Long userId, String messageId , List<MessageType> messageTypes)
-            throws MessageNotFoundException, UserNotFoundException , UserMessageFoundException {
-        // fixme : check it was working or not
+            throws MessageNotFoundException, UserNotFoundException , UserMessageNotFoundException {
         isMessageIdExist(messageId);
         isUserIdExist(userId);
-        // fixme : add message to db
         return messageRepository.insertMessage(userId , messageId , messageTypes);
+    }
+
+    @Override
+    public MessageResponse deleteMessage(Long userId, String messageId , MessageType messageType) {
+        isMessageIdExist(messageId);
+        isUserIdExist(userId);
+        return messageRepository.deleteMessage(userId, messageId , messageType);
     }
 
     private void isUserIdExist(Long userId) throws UserNotFoundException{
@@ -49,4 +54,5 @@ public class MessagesServiceImpl implements MessagesService {
                 messageId
         );
     }
+
 }
