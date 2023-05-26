@@ -21,14 +21,12 @@ public class MessageRepositoryImpl implements MessageRepository{
 
     @Override
     public MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes) {
-        // todo : check message for user exists or not
         if(!isUserHaveTheMessage(userId, messageId)){
             jdbcTemplate.update(
                     "insert into user.messages (user_id , message_id) values (?,?)" ,
                     userId , messageId + userId);
         }
 
-        // todo : check to messageTypes exists or not, if exists nothing otherwise insert type messages
         List<String> responses = jdbcTemplate
                 .queryForList(
                         "select message_type from user.type_messages where message_id = ?" ,
@@ -36,14 +34,12 @@ public class MessageRepositoryImpl implements MessageRepository{
                         messageId + userId
                 );
 
-        // todo : filter messageType when it equals with types response
         for (int i = 0 ; i < messageTypes.size() ; i++)
             for (String s : responses)
                 if (messageTypes.get(i).name().equalsIgnoreCase(s))
                     messageTypes.remove(i);
 
 
-        // todo : insert messageTypes into type_messages when filtered
         for (MessageType messageType : messageTypes)
             jdbcTemplate.update(
                     "insert into user.type_messages values (?,?)" ,
@@ -81,11 +77,11 @@ public class MessageRepositoryImpl implements MessageRepository{
                 messageId + userId
         );
         messageTypes.forEach(messageType ->
-                jdbcTemplate.update(
-                        "delete from user.type_messages where message_id = ? and message_type = ?" ,
-                        messageId + userId ,
-                        messageType.name()
-                )
+                    jdbcTemplate.update(
+                            "delete from user.type_messages where message_id = ? and message_type = ?" ,
+                            messageId + userId ,
+                            messageType.name()
+                    )
                 );
         return new MessageResponse(
                 userId ,
