@@ -69,7 +69,7 @@ public class MessageRepositoryImpl implements MessageRepository{
     }
 
     @Override
-    public MessageResponse deleteMessage(Long userId, String messageId , MessageType messageType) {
+    public MessageResponse deleteMessage(Long userId, String messageId , List<MessageType> messageTypes) {
         if (!isUserHaveTheMessage(userId, messageId)){
             throw new UserMessageNotFoundException(
                     "The Message with id '" + messageId + "' for user '" + userId + "' not found."
@@ -80,16 +80,17 @@ public class MessageRepositoryImpl implements MessageRepository{
                 userId ,
                 messageId + userId
         );
-        int value = jdbcTemplate.update(
-                "delete from user.type_messages where message_id = ? and message_type = ?" ,
-                messageId + userId ,
-                messageType.name()
-        );
-        System.out.println("Value : " + value);
+        messageTypes.forEach(messageType ->
+                jdbcTemplate.update(
+                        "delete from user.type_messages where message_id = ? and message_type = ?" ,
+                        messageId + userId ,
+                        messageType.name()
+                )
+                );
         return new MessageResponse(
                 userId ,
                 messageId ,
-                List.of(messageType)
+                messageTypes
         );
     }
 }

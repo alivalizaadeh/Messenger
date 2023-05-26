@@ -37,10 +37,10 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public MessageResponse deleteMessage(Long userId, String messageId , MessageType messageType) {
+    public MessageResponse deleteMessage(Long userId, String messageId , List<MessageType> messageTypes) {
         isMessageIdExist(messageId);
         isUserIdExist(userId);
-        return messageRepository.deleteMessage(userId, messageId , messageType);
+        return messageRepository.deleteMessage(userId, messageId , messageTypes);
     }
 
     private void isUserIdExist(Long userId) throws UserNotFoundException{
