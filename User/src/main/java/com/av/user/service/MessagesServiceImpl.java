@@ -55,4 +55,9 @@ public class MessagesServiceImpl implements MessagesService {
         );
     }
 
+    @Override
+    public List<MessageResponse> getMessagesForUser(Long userId) {
+        isUserIdExist(userId);
+        return messageRepository.getMessagesForUser(userId);
+    }
 }

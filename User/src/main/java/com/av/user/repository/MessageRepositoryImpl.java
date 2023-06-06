@@ -34,7 +34,7 @@ public class MessageRepositoryImpl implements MessageRepository{
                         messageId + userId
                 );
 
-        for (int i = 0 ; i < messageTypes.size() ; i++)
+        for (int i = messageTypes.size() - 1 ; i >= 0 ; i--)
             for (String s : responses)
                 if (messageTypes.get(i).name().equalsIgnoreCase(s))
                     messageTypes.remove(i);
@@ -87,6 +87,25 @@ public class MessageRepositoryImpl implements MessageRepository{
                 userId ,
                 messageId ,
                 messageTypes
+        );
+    }
+
+    @Override
+    public List<MessageResponse> getMessagesForUser(Long userId) {
+        return jdbcTemplate.query(
+                "select * from user.messages where user_id = ?" ,
+                (rs, rowNum) -> new MessageResponse(
+                        rs.getLong("user_id") ,
+                        rs.getString("message_id"),
+                        new ArrayList<>(
+                                jdbcTemplate.query(
+                                        "select * from user.type_messages where message_id = ?" ,
+                                        (rs1, rowNum1) -> MessageType.valueOf(rs1.getString("message_type").toUpperCase()),
+                                        rs.getString("message_id")
+                                )
+                        )
+                ) ,
+                userId
         );
     }
 }

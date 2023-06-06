@@ -9,4 +9,5 @@ public interface MessageRepository {
     MessageResponse insertMessage(Long userId , String messageId , List<MessageType> messageTypes);
     Boolean isUserHaveTheMessage(Long userId , String messageId);
     MessageResponse deleteMessage(Long userId , String messageId , List<MessageType> messageTypes);
+    List<MessageResponse> getMessagesForUser(Long userId);
 }

@@ -7,10 +7,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/messages")
@@ -30,4 +29,10 @@ public class MessagesController {
                 HttpStatus.CREATED
         );
     }
+
+    @GetMapping("/allMessages/{userId}")
+    public ResponseEntity<List<MessageResponse>> getMessagesForUser(@PathVariable Long userId){
+        return new ResponseEntity<>(messagesService.getMessagesForUser(userId) , HttpStatus.FOUND);
+    }
+
 }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface MessagesService {
     MessageResponse addMessage(Long userId , String messageId , List<MessageType> messageTypes);
     MessageResponse deleteMessage(Long userId , String messageId , List<MessageType> messageTypes);
+    List<MessageResponse> getMessagesForUser(Long userId);
 }
