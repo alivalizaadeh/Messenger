@@ -6,7 +6,6 @@ import com.av.message.exception.MessageNotFoundException;
 import com.av.message.request.MessageInsertRequest;
 import com.av.message.request.MessageUpdateRequest;
 import com.av.message.service.MessageService;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,15 +31,9 @@ public class MessageController {
         return new ResponseEntity<>(messageService.insert(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Message> getMessageById(@PathVariable String id)
+    @GetMapping("/id")
+    public ResponseEntity<String> getMessageById(@RequestParam String id)
             throws MessageNotFoundException {
-        return new ResponseEntity<>(messageService.findById(id) , HttpStatus.FOUND);
-    }
-
-    @GetMapping("/{id}/id")
-    public ResponseEntity<String> haveAnyMessageById(@PathVariable String id)
-            throws MessageNotFoundException{
         return new ResponseEntity<>(messageService.findById(id).getId() , HttpStatus.FOUND);
     }
 

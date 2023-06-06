@@ -6,6 +6,7 @@
     <modules>
         <module>Message</module>
         <module>User</module>
+        <module>Chat</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

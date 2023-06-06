@@ -15,14 +15,12 @@ import java.util.List;
 
 @Service
 public class MessagesServiceImpl implements MessagesService {
-    private final UserRepository userRepository;
     private final RestTemplate restTemplate;
     private final UserService userService;
     private final MessageRepositoryImpl messageRepository;
 
     @Autowired
-    public MessagesServiceImpl(UserRepository userRepository, RestTemplate restTemplate, UserService userService, MessageRepositoryImpl messageRepository) {
-        this.userRepository = userRepository;
+    public MessagesServiceImpl(RestTemplate restTemplate, UserService userService, MessageRepositoryImpl messageRepository) {
         this.restTemplate = restTemplate;
         this.userService = userService;
         this.messageRepository = messageRepository;
@@ -49,7 +47,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     private void isMessageIdExist(String messageId) throws MessageNotFoundException{
         restTemplate.getForObject(
-                "http://localhost:8081/messages/{id}/id",
+                "http://localhost:8081/messages?id={messageId}",
                 String.class ,
                 messageId
         );
