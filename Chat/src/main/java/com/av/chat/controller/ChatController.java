@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/chats")
 public class ChatController {
+    @Autowired
     private final RabbitMQProducer producer;
 
     @Autowired

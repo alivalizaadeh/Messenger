@@ -1,6 +1,7 @@
 package com.av.chat.publisher;
 
 import com.av.chat.request.RequestToRabbitMQ;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ public class RabbitMQProducerImpl implements RabbitMQProducer{
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
-    private final RabbitTemplate rabbitTemplate;
+    private final AmqpTemplate rabbitTemplate;
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -24,6 +25,7 @@ public class RabbitMQProducerImpl implements RabbitMQProducer{
         this.rabbitTemplate = rabbitTemplate;
         this.restTemplate = restTemplate;
     }
+
 
     @Override
     public void sendMessage(Long userIdFrom, Long userIdTo, String messageId) {
