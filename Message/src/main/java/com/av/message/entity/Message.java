@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
 public class Message {
     @Id
-    @Column(unique = true, updatable = false)
+    @Column(unique = true, updatable = false , length = 200)
     private String id;
 
     @Column
@@ -33,9 +33,6 @@ public class Message {
     @Column(updatable = false)
     @JsonFormat(pattern = "yyyy/MM/dd", shape = JsonFormat.Shape.STRING)
     private LocalDateTime readAt;
-
-    @Column(updatable = false)
-    private File file;
 
     @Column(nullable = false)
     private Boolean hasRead;

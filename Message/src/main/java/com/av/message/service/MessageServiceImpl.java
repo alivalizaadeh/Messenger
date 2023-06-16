@@ -44,9 +44,6 @@ public class MessageServiceImpl implements MessageService{
                     sentAt(MessageApplication.customizeLocalDateTime(LocalDateTime.now())).
                     hasRead(false).isEdited(false).isDeleted(false)
                     .build();
-            if (request.file() != null){
-                message.setFile(request.file());
-            }
             messageRepository.save(message);
             return id;
         }
@@ -76,7 +73,6 @@ public class MessageServiceImpl implements MessageService{
                 sentAt(find.getSentAt()).
                 readAt(request.readAt() == null ? find.getReadAt() :
                         MessageApplication.customizeLocalDateTime(request.readAt())).
-                file(find.getFile()).
                 hasRead((request.readAt() == null) ? find.getHasRead() : true).
                 isEdited(true).
                 isDeleted(request.isDeleted() == null ? find.getIsDeleted() : request.isDeleted()).build();

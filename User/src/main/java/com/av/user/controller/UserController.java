@@ -35,6 +35,11 @@ public class UserController {
         return new ResponseEntity<>(userService.findById(id) , HttpStatus.FOUND);
     }
 
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> isUserExists(@PathVariable Long id){
+        return ResponseEntity.ok(userService.findById(id) != null);
+    }
+
     @GetMapping("/{phoneNumber}p")
     public ResponseEntity<UserResponse> getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber)
             throws UserNotFoundException{

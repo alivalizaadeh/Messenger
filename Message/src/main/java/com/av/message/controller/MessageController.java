@@ -31,8 +31,8 @@ public class MessageController {
         return new ResponseEntity<>(messageService.insert(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<String> getMessageById(@RequestParam String id)
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getMessageById(@PathVariable String id)
             throws MessageNotFoundException {
         return new ResponseEntity<>(messageService.findById(id).getId() , HttpStatus.FOUND);
     }

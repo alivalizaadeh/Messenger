@@ -5,7 +5,6 @@ import com.av.user.exception.Message.MessageNotFoundException;
 import com.av.user.exception.User.UserMessageNotFoundException;
 import com.av.user.exception.User.UserNotFoundException;
 import com.av.user.repository.MessageRepositoryImpl;
-import com.av.user.repository.UserRepository;
 import com.av.user.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     private void isMessageIdExist(String messageId) throws MessageNotFoundException{
         restTemplate.getForObject(
-                "http://localhost:8081/messages?id={messageId}",
+                "http://localhost:8081/messages/{messageId}",
                 String.class ,
                 messageId
         );

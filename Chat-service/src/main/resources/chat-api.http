@@ -1,0 +1,10 @@
+POST http://localhost:8083/chats/insert
+Content-Type: application/json
+
+{
+  "userIdFrom": 1 ,
+  "userIdTo": 2 ,
+  "text" : "Salam Chetory ?"
+}
+
+###
