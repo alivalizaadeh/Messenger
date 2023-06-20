@@ -46,7 +46,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     private void isMessageIdExist(String messageId) throws MessageNotFoundException{
         restTemplate.getForObject(
-                "http://localhost:8081/messages/{messageId}",
+                "http://localhost:8080/messages/{messageId}",
                 String.class ,
                 messageId
         );

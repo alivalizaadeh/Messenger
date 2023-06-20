@@ -24,7 +24,7 @@ public class ChatPublisherImpl implements ChatPublisher{
         this.restTemplate = restTemplate;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE)
+    @RabbitListener(queues = {RabbitMQConfig.QUEUE})
     @Override
     public void publish(ChatRequestInput request) throws IOException {
         // Send request to message service for create message
@@ -35,10 +35,7 @@ public class ChatPublisherImpl implements ChatPublisher{
         messageConnection.setRequestProperty("Accept", "application/json");
         messageConnection.setDoOutput(true);
         String jsonInputString = "{\"text\": \"" + request.text() + "\"}";
-        DataOutputStream dataOutputStream = new DataOutputStream(messageConnection.getOutputStream());
-        dataOutputStream.writeBytes(jsonInputString);
-        dataOutputStream.flush();
-        dataOutputStream.close();
+        writeJsonToConnection(messageConnection , jsonInputString);
 
         int statusCode = messageConnection.getResponseCode();
         String messageId = null;
@@ -61,10 +58,7 @@ public class ChatPublisherImpl implements ChatPublisher{
         userFromConnection.setDoOutput(true);
         String userFromJsonRequest = "{\"userId\":" + request.userIdFrom() + ", \"messageId\":\"" + messageId
                 + "\",\"messageTypes\":[\"SEND_MESSAGE\"]}";
-        DataOutputStream dataOutputStreamFrom = new DataOutputStream(userFromConnection.getOutputStream());
-        dataOutputStreamFrom.writeBytes(userFromJsonRequest);
-        dataOutputStreamFrom.flush();
-        dataOutputStreamFrom.close();
+        writeJsonToConnection(userFromConnection , userFromJsonRequest);
 
         int statusCodeUserFrom = userFromConnection.getResponseCode();
         if (statusCodeUserFrom == HttpURLConnection.HTTP_CREATED){
@@ -84,10 +78,7 @@ public class ChatPublisherImpl implements ChatPublisher{
         userToConnection.setDoOutput(true);
         String userToJsonRequest = "{\"userId\":" + request.userIdTo() + ", \"messageId\": \"" + messageId
                 + "\",\"messageTypes\":[\"RECEIVED_MESSAGE\"]}";
-        DataOutputStream dataOutputStreamTo = new DataOutputStream(userToConnection.getOutputStream());
-        dataOutputStreamTo.writeBytes(userToJsonRequest);
-        dataOutputStreamTo.flush();
-        dataOutputStreamTo.close();
+        writeJsonToConnection(userToConnection , userToJsonRequest);
 
         int statusCodeUserTo = userToConnection.getResponseCode();
         if (statusCodeUserTo == HttpURLConnection.HTTP_CREATED){
@@ -99,6 +90,13 @@ public class ChatPublisherImpl implements ChatPublisher{
             bufferedReader.close();
         }else
             throw new IOException();
+    }
 
+    private void writeJsonToConnection(HttpURLConnection httpURLConnection , String json)
+            throws IOException{
+        DataOutputStream dataOutputStreamTo = new DataOutputStream(httpURLConnection.getOutputStream());
+        dataOutputStreamTo.writeBytes(json);
+        dataOutputStreamTo.flush();
+        dataOutputStreamTo.close();
     }
 }

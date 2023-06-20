@@ -7,6 +7,8 @@
         <module>Message</module>
         <module>User</module>
         <module>Chat-service</module>
+        <module>Eureka-service</module>
+        <module>Gateway-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -48,12 +50,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>2.7.8</version>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>2021.0.4</version>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
