@@ -28,7 +28,7 @@ public class ChatPublisherImpl implements ChatPublisher{
     @Override
     public void publish(ChatRequestInput request) throws IOException {
         // Send request to message service for create message
-        URL messageUrl = new URL("http://localhost:8081/messages/insert");
+        URL messageUrl = new URL("http://localhost:8080/messages/insert");
         HttpURLConnection messageConnection = (HttpURLConnection) messageUrl.openConnection();
         messageConnection.setRequestMethod("POST");
         messageConnection.setRequestProperty("Content-Type", "application/json");
@@ -50,7 +50,7 @@ public class ChatPublisherImpl implements ChatPublisher{
         }
 
         // Send request to user service for create message
-        URL userUrl = new URL("http://localhost:8082/user/messages/insert");
+        URL userUrl = new URL("http://localhost:8080/users/messages/insert");
         HttpURLConnection userFromConnection = (HttpURLConnection) userUrl.openConnection();
         userFromConnection.setRequestMethod("POST");
         userFromConnection.setRequestProperty("Content-Type", "application/json");

@@ -2,22 +2,10 @@ package com.av.chat.service;
 
 import com.av.chat.config.RabbitMQConfig;
 import com.av.chat.request.ChatRequestInput;
-import com.av.chat.request.ChatRequestUpdate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class ChatServiceImpl implements ChatService{
@@ -34,12 +22,12 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public void sendMessage(ChatRequestInput request) {
         restTemplate.getForObject(
-                "http://localhost:8082/users/{userId}/exists" ,
+                "http://localhost:8080/users/{userId}/exists" ,
                 Boolean.class ,
                 request.userIdFrom()
         );
         restTemplate.getForObject(
-                "http://localhost:8082/users/{userId}/exists" ,
+                "http://localhost:8080/users/{userId}/exists" ,
                 Boolean.class ,
                 request.userIdTo()
         );

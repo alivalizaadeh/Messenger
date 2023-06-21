@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/messages")
+@RequestMapping("/users/messages")
 @DynamicUpdate
 public class MessagesController {
     private final MessagesService messagesService;
