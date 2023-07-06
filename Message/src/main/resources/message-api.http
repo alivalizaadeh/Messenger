@@ -1,3 +1,20 @@
+PATCH http://localhost:8081/messages/update
+Content-Type: application/json
+
+{
+  "id": "3170466c2dbf4b5db0711cfafc917b84",
+  "text" : "Salam"
+}
+
+###
+GET http://localhost:8081/logs/all
+Accept: application/json
+
+###
+GET http://localhost:8081/messages/8ad1a1b2473d470b121322af442385deb33d
+Accept: application/json
+
+###
 GET http://localhost:8081/messages/all
 Accept: application/json
 
@@ -8,6 +25,7 @@ Content-Type: application/json
 {
   "text": "Hello, my name is ali."
 }
+
 
 
 ###
