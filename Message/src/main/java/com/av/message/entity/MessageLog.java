@@ -1,20 +1,31 @@
 package com.av.message.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import com.av.message.model.CustomDate;
+import com.av.message.model.CustomTime;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Document(collection = "messageLog")
 @Builder
 @ToString
 @Data
+@Setter
+@Getter
 public class MessageLog {
     @Id
-    private Integer id;
+    private String id;
+    private String status;
+    private String className;
     private String method;
-    private String message;
+    private Object input;
+    private Object output;
+    private String exception;
+    private String date;
+    private String time;
 }
