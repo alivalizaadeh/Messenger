@@ -31,23 +31,11 @@ public class MessageAop {
     @Pointcut("execution(* com.av.message.service.*.*(..))")
     public void logging(){}
 
-    @AfterReturning(value = "logging()" , returning = "string")
-    public void afterReturning(JoinPoint joinPoint , String string){
-        MessageLog messageLog = createAbstractMessageLog(joinPoint);
-        messageLog.setStatus("SUCCESSFUL");
-        messageLog.setOutput(string);
-        while (messageLogRepository.findById(messageLog.getId()).isPresent()){
-            messageLog.setId(MessageApplication.getRandomStringId());
-        }
-        messageLogRepository.save(messageLog);
-        log.info(messageLog.toString());
-    }
-
     @AfterThrowing(value = "logging()" , throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint , Exception exception){
         MessageLog messageLog = createAbstractMessageLog(joinPoint);
         messageLog.setStatus("UNSUCCESSFUL");
-        messageLog.setException(exception.getMessage());
+        messageLog.setException(exception.getClass().getName() + " : " + exception.getMessage());
         while (messageLogRepository.findById(messageLog.getId()).isPresent()){
             messageLog.setId(MessageApplication.getRandomStringId());
         }

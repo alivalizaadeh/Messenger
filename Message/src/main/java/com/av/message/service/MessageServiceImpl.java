@@ -36,7 +36,7 @@ public class MessageServiceImpl implements MessageService{
         String id = MessageApplication.getRandomStringId();
         try {
             findById(id);
-            throw new MessageIdDuplicatedException();
+            throw new MessageIdDuplicatedException("Message with id " + id + " found and it duplicated.");
         } catch (MessageNotFoundException ignored){
             Message message = Message.builder().
                     id(id).

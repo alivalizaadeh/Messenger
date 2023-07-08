@@ -25,7 +25,6 @@ public class MessageExceptionHandler {
         return errors;
     }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(MessageNotFoundException.class)
     public Map<String , String> handleMessageNotFoundException(MessageNotFoundException exception){
         Map<String , String> errors = new HashMap<>();

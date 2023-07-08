@@ -2,7 +2,7 @@ PATCH http://localhost:8081/messages/update
 Content-Type: application/json
 
 {
-  "id": "3170466c2dbf4b5db0711cfafc917b84",
+  "id": "ce1ff25c66a04607bfa8ef1bce40822",
   "text" : "Salam"
 }
 
@@ -11,7 +11,7 @@ GET http://localhost:8081/logs/all
 Accept: application/json
 
 ###
-GET http://localhost:8081/messages/24f03f4f2ee24002bd4f2b24ba3384c52321
+GET http://localhost:8081/messages/ce1ff25c66a04607bfa8ef1bce4088
 Accept: application/json
 
 ###
