@@ -3,12 +3,11 @@ package com.av.message.entity;
 import com.av.message.model.CustomDate;
 import com.av.message.model.CustomTime;
 import lombok.*;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 @Document(collection = "messageLog")
@@ -17,6 +16,7 @@ import java.time.LocalTime;
 @Data
 @Setter
 @Getter
+@Scope(scopeName = BeanDefinition.SCOPE_PROTOTYPE)
 public class MessageLog {
     @Id
     private String id;
