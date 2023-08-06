@@ -49,6 +49,6 @@ public class MessageController {
 
     @PatchMapping("/update")
     public ResponseEntity<String> updateMessage(@RequestBody MessageUpdateRequest request) {
-        return new ResponseEntity<>(messageService.update(request), HttpStatus.UPGRADE_REQUIRED);
+        return new ResponseEntity<>(messageService.update(request).getId(), HttpStatus.UPGRADE_REQUIRED);
     }
 }

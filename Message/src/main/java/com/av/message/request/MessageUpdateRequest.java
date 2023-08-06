@@ -1,5 +1,6 @@
 package com.av.message.request;
 
+import lombok.Builder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.WebRequest;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Scope(WebRequest.REFERENCE_REQUEST)
+@Builder
 public record MessageUpdateRequest(
         @NotNull String id ,
         @Nullable String text ,

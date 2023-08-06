@@ -33,7 +33,8 @@ public class MessageServiceImpl implements MessageService{
     )
      */
     public String insert(MessageInsertRequest request) throws MessageIdDuplicatedException {
-        String id = MessageApplication.getRandomStringId();
+        assert request.id() != null;
+        String id = request.id().isEmpty() ? MessageApplication.getRandomStringId() : request.id();
         try {
             findById(id);
             throw new MessageIdDuplicatedException("Message with id " + id + " found and it duplicated.");
@@ -61,23 +62,26 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public String update(MessageUpdateRequest request) throws MessageNotFoundException {
+    public Message update(MessageUpdateRequest request) throws MessageNotFoundException {
         if (Boolean.TRUE.equals(request.isDeleted())){
             delete(request.id());
             return null;
         }
         Message find = findById(request.id());
         Message message = Message.builder().
-                id(request.id()).
-                text(request.text()).
+                id(find.getId()).
+                text(request.text() == null ? find.getText() : request.text()).
                 sentAt(find.getSentAt()).
                 readAt(request.readAt() == null ? find.getReadAt() :
                         MessageApplication.customizeLocalDateTime(request.readAt())).
                 hasRead((request.readAt() == null) ? find.getHasRead() : true).
-                isEdited(true).
-                isDeleted(request.isDeleted() == null ? find.getIsDeleted() : request.isDeleted()).build();
+                isEdited(find.getIsEdited()).
+                isDeleted(find.getIsDeleted()).build();
+        message.setIsEdited(
+                !find.equals(message)
+        );
         messageRepository.save(message);
-        return request.id();
+        return message;
     }
 
     @Override

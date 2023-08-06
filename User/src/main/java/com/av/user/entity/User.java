@@ -75,6 +75,6 @@ public class User implements Serializable {
                     name = "USER_ID"
             )
     )
-    @Column(name = "CONTACTS_ID")
+    @Column(name = "CONTACT_ID")
     private List<String> contacts;
 }

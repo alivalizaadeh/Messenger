@@ -10,6 +10,6 @@ public interface MessageService {
     String insert(MessageInsertRequest request);
     Message findById(String id);
     List<Message> findAll();
-    String update(MessageUpdateRequest request);
+    Message update(MessageUpdateRequest request);
     void delete(String id);
 }
